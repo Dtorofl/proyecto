@@ -1,0 +1,46 @@
+{%extends 'app/base.html' %}
+
+{%block contenido %}
+<div class="card">
+    
+    <div class="card body">
+        <h3 text-align="center">Listado de Tareas</h3>
+        <p class="agregar"><a href="{% url 'agregar_tarea'%}" class="btn btn-success btn-responsive ">Agregar</a></p>
+        <table class="table table-striped table-hover table-responsive-sm">
+            
+            <tr>
+                <th>Id</th>
+                <th>Proyecto<th>
+                <th>Nombre<th>
+                <th>Estado<th>   
+                <th>Opciones</th> 
+            </tr>
+            {%for t in tareas%}
+            <tr>
+                <td>{{t.id}}</td>
+                <td>{{t.codigo | title}}</td>
+                <td></td>
+                <td>{{t.nombre | title}}</td>
+                <td></td>
+                <td>
+                    {%if t.estado%}
+                    Terminado
+                    {% else %}
+                    En ejecucion
+                    {%endif%}
+                </td>
+                <td></td>
+                <td>
+                    <a href="{% url 'modificar_Tareas' t.id %}" class="btn btn-warning btn-sm">modificar</a>
+                    <a href="{% url 'eliminar_Tareas' t.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        
+        
+            {%endfor%}
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

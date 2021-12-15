@@ -1,0 +1,86 @@
+{%extends 'app/base.html'%}
+
+{%load static%}
+{%block js%}
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+      $('.slider').bxSlider({
+          mode: 'fade',//horizontal, vertical, fade
+          auto: true,
+          pause: 5000
+      });
+    });
+</script>
+{%endblock%}
+
+{%block css%}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+{%endblock%}
+{%block contenido%}
+<div class="slider">
+    <div>
+        <img src="{% static 'app/img/banner/banner1.png'%}" alt="">
+       
+    </div>
+    <div>
+        <img src="{%static 'app/img/banner/banner2.png'%}" alt="">
+    </div>
+    <div>
+        <img src="{%static 'app/img/banner/banner3.png'%}" alt="">
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <h2>Registro de Proyectos</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/agregarProyecto/" method="POST">{% csrf_token %}
+                    
+                    <div class="form-group py-2">
+                        <input type="text" id="txtNombre" name="txtNombre" class="form-control" placeholder="Nombre"
+                            maxlength="50" required>
+                    </div>
+                    
+                    <div class="form-group d-grid">
+                        <button type="submit" class="btn btn-success  text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+        <h1>Listado de Proyectos</h1>
+        <div class="table-responsive py-2 ">
+            <table class="table table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th colspan="3">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+               
+                    {% for p in proyectos%}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <th>{{p.nombre}}</th>
+                        <th><a href="{% url 'listar_Tarea'%}" class = "btn btn-success">Tareas</a></th>
+                        <th><a href="{% url 'modificarProyecto' p.id %}" class = "btn btn-info">Editar</a></th>
+                        <th><a href="eliminarProyecto/{{p.id}}" class = "btn btn-danger btnEliminacion">Eliminar</a></th>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="edicion" role="dialog"></div>
+</div>
+
+{%endblock%}
